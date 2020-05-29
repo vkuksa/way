@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+{% block content %}
+      <div class="col-md-12 text-center">
+          <img src="{{ url_for('static', filename='home.png') }}" alt="Who are you" width="70%">
+      </div>
+      <div class="col-md-12 text-center">
+        <a href="{{ url_for('test.start') }}">
+          <button type="button" class="btn btn-secondary">Let's find who you are</button>
+        </a>
+      </div>
+{% endblock content %}

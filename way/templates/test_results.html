@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% include "chart_layout.html" %}
+
+        {% for _,info in data.items() %}
+            <div class="container mb-5">
+                <h3 class="font-weight-bolder mb-4">{{ info.title }} </h3>
+                <p class="mt-3 mb-1">{{ info.shortDescription }} </p>
+                {% for letter in info.description %}
+                    <p class="font-weight-light">{{ letter }} </p>
+                {% endfor %}
+                <p class="font-weight-bolder mt-2">Your score of {{ info.title }}: {{ info.score }}.</p>
+                <p class="mt-1">{{ info.text }} </p>
+            </div>
+        {% endfor %}
+
+    <div class="container">
+        <h2 class="text-center font-weight-bolder  mb-4">Recommendations for you</h2>
+        <div class="row">
+            <div class="col">
+                <h3 class="text-center font-weight-bolder mb-3">Articles</h3>
+                {% for article in articles %}
+                    <article class="media content-section">
+                      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + article.author.image_file) }}">
+                      <div class="media-body">
+                        <div class="article-metadata text-right">
+                          <a class="mr-2" href="{{ url_for('users.user_info', username=article.author.username) }}">{{ article.author.username }}</a>
+                          <small class="text-muted">{{ article.date_added.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <h4><a class="article-title text-truncate" href="{{ url_for('recommendations.article', article_id=article.id) }}">{{ article.title }}</a></h4>
+                      </div>
+                    </article>
+                {% endfor %}
+            </div>
+            <div class="col">
+                <h3 class="text-center font-weight-bolder mb-3">Resources</h3>
+                {% for resource in resources %}
+                    <article class="media content-section">
+                      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + resource.author.image_file) }}">
+                      <div class="media-body">
+                        <div class="article-metadata text-right">
+                          <a class="mr-2" href="{{ url_for('users.user_info', username=resource.author.username) }}">{{ resource.author.username }}</a>
+                          <small class="text-muted">{{ resource.date_added.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <h4><a class="article-title text-truncate" href="{{ url_for('recommendations.resource', resource_id=resource.id) }}">{{ resource.title }}</a></h4>
+                      </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

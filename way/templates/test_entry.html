@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+    <script type="text/javascript" src="{{ url_for('static', filename='questionnaire.js') }}"></script>
+    <script type="text/javascript">
+        let test_id = '{{ test_id }}' //Security :)
+     </script>
+
+    <div class="container">
+        <div class="progress">
+          <div class="progress-bar bg-info" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="120" style="width:55%"></div>
+        </div>
+        <div class="form-group">
+          <div id="questionnaire-container"></div>
+        </div>
+        <div class="col-md-12 text-center">
+          <button id="previous" type="button" class="btn btn-outline-secondary">Previous section</button>
+          <button id="submit" type="button" class="btn btn-outline-secondary">Next section</button>
+          <button id="finish" type="button" class="btn btn-outline-secondary">Finish test</button>
+        </div>
+    </div>
+{% endblock content %}

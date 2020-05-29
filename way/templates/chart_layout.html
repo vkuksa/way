@@ -1,0 +1,50 @@
+{% block chart %}
+<div class="container">
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js' crossorigin="anonymous"></script>
+    <canvas id="chart" width="600" height="400" style="text-align:center"></canvas>
+    <script>
+        let testData = {
+            labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
+            datasets: [
+            {
+                label: 'Domains',
+                fill: true,
+                backgroundColor: "rgba(96,184,150,0.2)",
+                borderColor: "rgba(96,184,150,1)",
+                pointBorderColor: "rgba(50,50,50,1)",
+                pointBackgroundColor: "rgba(96,184,150,0.7)",
+                labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
+                data: [{{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }}]
+            }]
+        };
+        let max = Math.max({{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }});
+        let testOptions = {
+            responsive: true,
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: '{{ legend }}'
+            },
+            scale: {
+                angleLines: {
+                    display: false
+                },
+                ticks: {
+                    suggestedMin: 0,
+                    suggestedMax: max
+                }
+            }
+        };
+
+        window.onload = function() {
+          new Chart(document.getElementById("chart"), {
+            type: 'radar',
+            data: testData,
+            options: testOptions
+            });
+        }
+    </script>
+</div>
+{% endblock chart %}

@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% include "chart_layout.html" %}
+    <div class="container">
+        <h2 class="text-center font-weight-bolder  mb-4">Activity of {{ user.username }}</h2>
+        <div class="row">
+            <div class="col">
+                <h3 class="text-center font-weight-bolder mb-3">Articles</h3>
+                {% for article in articles.items %}
+                    <article class="media content-section">
+                      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + article.author.image_file) }}">
+                      <div class="media-body">
+                        <div class="article-metadata text-right">
+                          <a class="mr-2" href="{{ url_for('users.user_info', username=article.author.username) }}">{{ article.author.username }}</a>
+                          <small class="text-muted">{{ article.date_added.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <h4><a class="article-title text-truncate" href="{{ url_for('recommendations.article', article_id=article.id) }}">{{ article.title }}</a></h4>
+                      </div>
+                    </article>
+                {% endfor %}
+                {% for page_num in articles.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                  {% if page_num %}
+                    {% if articles.page == page_num %}
+                      <a class="btn btn-info mb-4" href="{{ url_for('users.user_info', username=user.username, article_page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                      <a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_info', username=user.username, article_page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                  {% else %}
+                    ...
+                  {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col">
+                <h3 class="text-center font-weight-bolder mb-3">Resources</h3>
+                {% for resource in resources.items %}
+                    <article class="media content-section">
+                      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + resource.author.image_file) }}">
+                      <div class="media-body">
+                        <div class="article-metadata text-right">
+                          <a class="mr-2" href="{{ url_for('users.user_info', username=resource.author.username) }}">{{ resource.author.username }}</a>
+                          <small class="text-muted">{{ resource.date_added.strftime('%Y-%m-%d') }}</small>
+                        </div>
+                        <h4><a class="article-title text-truncate" href="{{ url_for('recommendations.resource', resource_id=resource.id) }}">{{ resource.title }}</a></h4>
+                      </div>
+                    </article>
+                {% endfor %}
+                {% for page_num in resources.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                  {% if page_num %}
+                    {% if resources.page == page_num %}
+                      <a class="btn btn-info mb-4" href="{{ url_for('users.user_info', username=user.username, resource_page=page_num) }}">{{ page_num }}</a>
+                    {% else %}
+                      <a class="btn btn-outline-info mb-4" href="{{ url_for('users.user_info', username=user.username, resource_page=page_num) }}">{{ page_num }}</a>
+                    {% endif %}
+                  {% else %}
+                    ...
+                  {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

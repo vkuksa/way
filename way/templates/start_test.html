@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+      <div class="col-md-12 text-center">
+          <p>Test consists of 120 questions and may take approximately 30 minutes. </p>
+          <p>After passing the test you will see the results represented in 5 main directions, traits and recommendations. </p>
+      </div>
+      <div class="col-md-12 text-center">
+        <a href="{{ url_for('test.load', test_id=0) }}"><!--TODO: change test_id-->
+          <button type="button" class="btn btn-secondary">Press here to proceed</button>
+        </a>
+      </div>
+{% endblock content %}
