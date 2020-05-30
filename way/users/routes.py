@@ -62,14 +62,14 @@ def account():
 
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
 
-    test_results = TestResult.query.filter_by(user_id=current_user.id).all()
+    test_results = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).all()
     if len(test_results) >= 1:
-        recent_result = test_results[-1]
+        recent_result = test_results[0]
         print(recent_result.id)
         recent_data = recent_result.to_dict()
 
         if len(test_results) >= 2:
-            previous_result = test_results[-2]
+            previous_result = test_results[1]
             print(previous_result.id)
             previous_data = previous_result.get_scores()
 
@@ -103,7 +103,7 @@ def settings():
 @users.route("/user/<string:username>")
 def user_info(username):
     test_result = TestResult.query.join(User, TestResult.user_id == User.id)\
-                                    .filter(User.username == username).first()
+                                    .filter(User.username == username).order_by(TestResult.id.desc()).first()
     test_data = test_result.to_dict()
     results = way.test.utils.get_results(test_data)
 

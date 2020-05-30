@@ -30,7 +30,7 @@
                 backgroundColor: "rgba(210,85,85,0.2)",
                 borderColor: "rgba(210,85,85,1)",
                 pointBorderColor: "rgba(50,50,50,1)",
-                pointBackgroundColor: "rgba(50,50,50,0.5)",
+                pointBackgroundColor: "rgba(50,50,50,0.75)",
                 labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
                 data: [
                     {{ previous_data.E.score }},
@@ -43,7 +43,7 @@
             {% endif %}
             ]
         };
-        let max = Math.max({{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }});
+        let max = Math.max({{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }}) + 1;
         let testOptions = {
             responsive: true,
             legend: {
@@ -59,7 +59,7 @@
                 },
                 ticks: {
                     suggestedMin: 0,
-                    suggestedMax: max
+                    suggestedMax: max < 120/3 ? max : 120
                 }
             }
         };

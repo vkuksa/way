@@ -72,17 +72,11 @@ class Tag(db.Model):
 class TestResult(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    E_id = db.Column(db.Integer, default=-1)
-    A_id = db.Column(db.Integer, default=-1)
-    C_id = db.Column(db.Integer, default=-1)
-    N_id = db.Column(db.Integer, default=-1)
-    O_id = db.Column(db.Integer, default=-1)
-
-    @classmethod
-    def serialize(cls):
-        return {'A': {'score': 6, 'count': 2, 'result': 'neutral'}, 'E': {'score': 6, 'count': 2, 'result': 'neutral'},
-         'O': {'score': 3, 'count': 1, 'result': 'neutral'}, 'N': {'score': 3, 'count': 1, 'result': 'neutral'},
-         'C': {'score': 3, 'count': 1, 'result': 'neutral'}}
+    E_id = db.Column(db.Integer, default=5)
+    A_id = db.Column(db.Integer, default=4)
+    C_id = db.Column(db.Integer, default=3)
+    N_id = db.Column(db.Integer, default=2)
+    O_id = db.Column(db.Integer, default=1)
 
     def to_dict(self):
         result = {}

@@ -22,15 +22,13 @@ def get_questions():
 
 def __calculate_result(score: int, count: int):
     avg = score/count
-    if avg == 3:
+    if 2.5 < avg < 3.5:
         return 'neutral'
-    return 'low' if avg < 3 else 'high'
+    return 'low' if avg <= 2.5 else 'high'
 
 
 def __reducer(a, b):
     domain = b["domain"]
-    if a.get(domain) is None:
-        a[domain] = {'score': 0, 'count': 0, 'result': 'neutral'}
 
     a[domain]["score"] += int(b["score"])
     a[domain]["count"] += 1
@@ -40,7 +38,14 @@ def __reducer(a, b):
 
 
 def calculate_scores(answers):
-    return functools.reduce(__reducer, answers, {})
+    scores = {
+        'O': {'score': 0, 'count': 0, 'result': 'neutral'},
+        'C': {'score': 0, 'count': 0, 'result': 'neutral'},
+        'E': {'score': 0, 'count': 0, 'result': 'neutral'},
+        'A': {'score': 0, 'count': 0, 'result': 'neutral'},
+        'N': {'score': 0, 'count': 0, 'result': 'neutral'}
+    }
+    return functools.reduce(__reducer, answers, scores)
 
 
 def get_results(scores):

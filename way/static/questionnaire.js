@@ -149,6 +149,7 @@ $(function() {
         const { answers, items, inventory } = state
         const domain = inventory.find(q => q.id === id)
         answers[id] = { score: value, domain: domain}
+        console.log(answers)
         const progress = Math.round(Object.keys(answers).length / inventory.length * 100)
         const next = items.filter(item => !answers[item.id]).length === 0
         setState({ answers, progress, next, source: "handleChange" })
@@ -156,8 +157,6 @@ $(function() {
 
     //Just make fucking state machine :)
     function setState({next, previous, items, position, answers, progress, source}={}) {
-        console.log("Set state: " + next, previous, items, position, answers, progress, source);
-
         if(progress !== undefined) {
             state.progress = progress;
             $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
@@ -190,8 +189,6 @@ $(function() {
 
         $("#submit").prop('disabled', state.position === 116? true : next === false)
         $("#previous").prop('disabled', state.position === 0 ? true : previous === false)
-
-        console.log("State: ", state);
     }
 
     $(document).on('change', ".radio-buttons", (function() {
@@ -221,7 +218,6 @@ $(function() {
         position: 0,
         inventory: [],
         itemsPerPage: 4,
-        results: [],
         answers: [],
         items: []
     }

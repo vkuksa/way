@@ -28,7 +28,9 @@ def inventory():
 @test.route("/test/start")
 @login_required
 def start():
-    return render_template('start_test.html', title='Start Test')
+    latest_test = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).first()
+    test_id = latest_test.id + 1
+    return render_template('start_test.html', title='Start Test', test_id=test_id)
 
 
 @test.route("/test/<int:test_id>", methods=['GET', 'POST'])
@@ -36,7 +38,9 @@ def start():
 def load(test_id):
     if request.method == 'POST':
         data = json.loads(request.get_json())
+        print(data)
         scores = way.test.utils.calculate_scores(data)
+        print(scores)
 
         test_result = TestResult(user_id=current_user.id)
         for domain, info in scores.items():
@@ -58,74 +62,15 @@ def result(test_id):
     articles = Article.query.limit(5).all()  # TODO: add simple model for recommendations
     resources = Resource.query.limit(5).all()
 
-    test_results = TestResult.query.filter_by(user_id=current_user.id).all()
+    test_results = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).all()
     if len(test_results) >= 1:
-        recent_result = test_results[-1]
-        print(recent_result.id)
+        recent_result = test_results[0]
         recent_data = recent_result.to_dict()
 
         if len(test_results) >= 2:
-            previous_result = test_results[-2]
-            print(previous_result.id)
+            previous_result = test_results[1]
             previous_data = previous_result.get_scores()
 
         results = way.test.utils.get_results(recent_data)
     return render_template('test_results.html', title='Test Results', articles=articles, resources=resources,
                            data=results, previous_data=previous_data, legend='Test result')
-
-
-@test.route("/test/test2")
-def testorino2():
-    res = """[
-    {
-      "domain": "A",
-      "facet": "1",
-      "score": "3"
-    },
-    {
-      "domain": "A",
-      "facet": "1",
-      "score": "3"
-    },
-    {
-      "domain": "E",
-      "facet": "1",
-      "score": "3"
-    },
-    {
-      "domain": "E",
-      "facet": "2",
-      "score": "3"
-    },
-    {
-      "domain": "O",
-      "facet": "1",
-      "score": "3"
-    },
-    {
-      "domain": "N",
-      "facet": "2",
-      "score": "3"
-    },
-    {
-      "domain": "C",
-      "facet": "2",
-      "score": "3"
-    }
-  ]"""
-    answers = json.loads(res)
-    scores = way.test.utils.calculate_scores(answers)
-
-    print(scores)
-
-    test_result = TestResult(user_id=current_user.id)
-    for domain, info in scores.items():
-        domain_result = DomainResult(domain=domain, score=info["score"], count=info["count"], result=info["result"])
-        db.session.add(domain_result)
-        db.session.commit()
-        setattr(test_result, domain + '_id', domain_result.id)
-    db.session.add(test_result)
-    db.session.commit()
-
-    results = way.test.utils.get_results(scores)
-    return render_template('test.html', data=results)
