@@ -55,13 +55,23 @@ def load(test_id):
 @test.route("/test/<int:test_id>/result")
 @login_required
 def result(test_id):
-    test_result = TestResult.query.get(test_id)
-    test_data = test_result.to_dict()
-    results = way.test.utils.get_results(test_data)
     articles = Article.query.limit(5).all()  # TODO: add simple model for recommendations
     resources = Resource.query.limit(5).all()
+
+    test_results = TestResult.query.filter_by(user_id=current_user.id).all()
+    if len(test_results) >= 1:
+        recent_result = test_results[-1]
+        print(recent_result.id)
+        recent_data = recent_result.to_dict()
+
+        if len(test_results) >= 2:
+            previous_result = test_results[-2]
+            print(previous_result.id)
+            previous_data = previous_result.get_scores()
+
+        results = way.test.utils.get_results(recent_data)
     return render_template('test_results.html', title='Test Results', articles=articles, resources=resources,
-                           data=results, legend='Test result')
+                           data=results, previous_data=previous_data, legend='Test result')
 
 
 @test.route("/test/test2")

@@ -1,4 +1,5 @@
 {% block chart %}
+{% if data is defined %}
 <div class="container">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js' crossorigin="anonymous"></script>
     <canvas id="chart" width="600" height="400" style="text-align:center"></canvas>
@@ -7,15 +8,40 @@
             labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
             datasets: [
             {
-                label: 'Domains',
+                label: 'Latest test results',
                 fill: true,
                 backgroundColor: "rgba(96,184,150,0.2)",
                 borderColor: "rgba(96,184,150,1)",
                 pointBorderColor: "rgba(50,50,50,1)",
-                pointBackgroundColor: "rgba(96,184,150,0.7)",
+                pointBackgroundColor: "rgba(50,50,50,0.5)",
                 labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
-                data: [{{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }}]
-            }]
+                data: [
+                    {{ data.E.score }},
+                    {{ data.C.score  }},
+                    {{ data.A.score }},
+                    {{ data.N.score }},
+                    {{ data.O.score }}
+                ]
+            }
+            {% if previous_data is defined %}
+            ,{
+                label: 'Previous test results',
+                fill: true,
+                backgroundColor: "rgba(210,85,85,0.2)",
+                borderColor: "rgba(210,85,85,1)",
+                pointBorderColor: "rgba(50,50,50,1)",
+                pointBackgroundColor: "rgba(50,50,50,0.5)",
+                labels: ['Extraversion', 'Consciousness', 'Agreeableness', 'Neuroticism', 'Openness'],
+                data: [
+                    {{ previous_data.E.score }},
+                    {{ previous_data.C.score  }},
+                    {{ previous_data.A.score }},
+                    {{ previous_data.N.score }},
+                    {{ previous_data.O.score }}
+                ]
+            }
+            {% endif %}
+            ]
         };
         let max = Math.max({{ data.E.score }}, {{ data.C.score  }}, {{ data.A.score }}, {{ data.N.score }}, {{ data.O.score }});
         let testOptions = {
@@ -47,4 +73,5 @@
         }
     </script>
 </div>
+{% endif %}
 {% endblock chart %}

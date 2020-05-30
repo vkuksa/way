@@ -91,6 +91,13 @@ class TestResult(db.Model):
             result = {**result, **res.to_dict()}
         return result
 
+    def get_scores(self):
+        result = {}
+        for X in ['O', 'C', 'E', 'A', 'N']:
+            res = DomainResult.query.get(getattr(self, X + '_id'))
+            result = {**result, **res.get_score()}
+        return result
+
     def __repr__(self):
         return f"TestResult('{self.user_id}')"
 
@@ -104,6 +111,9 @@ class DomainResult(db.Model):
 
     def to_dict(self):
         return {self.domain: {'score': self.score, 'count': self.count, 'result': self.result}}
+
+    def get_score(self):
+        return {self.domain: {'score': self.score}}
 
     def __repr__(self):
         return f"TestResult('{self.domain}','{self.score}', '{self.count}', '{self.result}')"

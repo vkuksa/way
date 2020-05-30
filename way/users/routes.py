@@ -50,10 +50,6 @@ def logout():
 @users.route("/account")
 @login_required
 def account():
-    test_result = TestResult.query.filter_by(user_id=current_user.id).first()
-    test_data = test_result.to_dict()
-    results = way.test.utils.get_results(test_data)
-
     article_page = request.args.get('article_page', 1, type=int)
     resource_page = request.args.get('resource_page', 1, type=int)
 
@@ -65,8 +61,22 @@ def account():
         .paginate(page=resource_page, per_page=5)
 
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
+
+    test_results = TestResult.query.filter_by(user_id=current_user.id).all()
+    if len(test_results) >= 1:
+        recent_result = test_results[-1]
+        print(recent_result.id)
+        recent_data = recent_result.to_dict()
+
+        if len(test_results) >= 2:
+            previous_result = test_results[-2]
+            print(previous_result.id)
+            previous_data = previous_result.get_scores()
+
+        results = way.test.utils.get_results(recent_data)
+
     return render_template('user_info.html', title='Account', articles=articles, resources=resources,
-                           image_file=image_file, user=current_user, data=results, legend='Portrait')
+                           image_file=image_file, user=current_user, data=results, previous_data=previous_data, legend='Portrait')
 
 
 @users.route("/settings", methods=['GET', 'POST'])
