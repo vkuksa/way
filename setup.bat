@@ -6,6 +6,4 @@ py -m pip install --user virtualenv
 
 rem Set up virtualenv
 py -m venv venv
-.\venv\Scripts\activate
-
-pip install -r requirements.txt
+venv\Scripts\pip install -r requirements.txt

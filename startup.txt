@@ -4,8 +4,13 @@
 
 Unix-like OS:
 sh setup.sh
+export FLASK_APP=run.py
 ./venv/bin/python -m flask run
 
 Windows OS:
 setup.bat
-python -m flask run
+set FLASK_APP=run.py
+flask run
+
+
+Після вказаних дій необхідно зайти на http://127.0.0.1:5000/ в браузері.
