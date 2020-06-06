@@ -3,6 +3,7 @@ from flask_login import login_required, current_user
 
 import json
 import way.test.utils
+import way.recommendations.utils
 from way import db
 from way.models import Article, Resource, TestResult, DomainResult
 
@@ -62,13 +63,17 @@ def load(test_id):
 def result(test_id):
     results = None
     previous_data = None
-    articles = Article.query.limit(5).all()  # TODO: add simple model for recommendations
-    resources = Resource.query.limit(5).all()
+    articles = None
+    resources = None
 
     test_results = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).all()
     if len(test_results) >= 1:
         recent_result = test_results[0]
         recent_data = recent_result.to_dict()
+        print(recent_data)
+        rp = way.recommendations.utils.RecommendationProvider(recent_data)
+        articles = rp.get_articles()
+        resources = rp.get_resources()
 
         if len(test_results) >= 2:
             previous_result = test_results[1]
