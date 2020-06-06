@@ -1,0 +1,11 @@
+Повинен бути встановлений python версії 3.8.
+Наступні кроки залежать від операційної системи.
+Команди викликаються з кореневої папки проекту.
+
+Unix-like OS:
+sh setup.sh
+./venv/bin/python -m flask run
+
+Windows OS:
+setup.bat
+python -m flask run
