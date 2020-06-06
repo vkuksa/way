@@ -50,6 +50,8 @@ def logout():
 @users.route("/account")
 @login_required
 def account():
+    results = None
+    previous_data = None
     article_page = request.args.get('article_page', 1, type=int)
     resource_page = request.args.get('resource_page', 1, type=int)
 

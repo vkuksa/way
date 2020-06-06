@@ -1,46 +1,46 @@
 let choices = {
   plus: [
     {
-      text: 'Very Inaccurate',
-      score: 1
-    },
-    {
-      text: 'Moderately Inaccurate',
-      score: 2
-    },
-    {
-      text: 'Neither Accurate Nor Inaccurate',
-      score: 3
+      text: 'Very Accurate',
+      score: 5
     },
     {
       text: 'Moderately Accurate',
       score: 4
     },
     {
-      text: 'Very Accurate',
-      score: 5
+      text: 'Neither Accurate Nor Inaccurate',
+      score: 3
+    },
+    {
+      text: 'Moderately Inaccurate',
+      score: 2
+    },
+    {
+      text: 'Very Inaccurate',
+      score: 1
     }
   ],
   minus: [
     {
-      text: 'Very Inaccurate',
-      score: 5
-    },
-    {
-      text: 'Moderately Inaccurate',
-      score: 4
-    },
-    {
-      text: 'Neither Accurate Nor Inaccurate',
-      score: 3
+      text: 'Very Accurate',
+      score: 1
     },
     {
       text: 'Moderately Accurate',
       score: 2
     },
     {
-      text: 'Very Accurate',
-      score: 1
+      text: 'Neither Accurate Nor Inaccurate',
+      score: 3
+    },
+    {
+      text: 'Moderately Inaccurate',
+      score: 4
+    },
+    {
+      text: 'Very Inaccurate',
+      score: 5
     }
   ]
 };

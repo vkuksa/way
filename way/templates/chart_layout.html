@@ -1,5 +1,5 @@
 {% block chart %}
-{% if data is defined %}
+{% if data is not none %}
 <div class="container">
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js' crossorigin="anonymous"></script>
     <canvas id="chart" width="600" height="400" style="text-align:center"></canvas>
@@ -23,7 +23,7 @@
                     {{ data.O.score }}
                 ]
             }
-            {% if previous_data is defined %}
+            {% if previous_data is not none %}
             ,{
                 label: 'Previous test results',
                 fill: true,

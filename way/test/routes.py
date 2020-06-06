@@ -28,8 +28,9 @@ def inventory():
 @test.route("/test/start")
 @login_required
 def start():
-    latest_test = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).first()
-    test_id = latest_test.id + 1
+    latest_user_test = TestResult.query.filter_by(user_id=current_user.id).order_by(TestResult.id.desc()).first()
+    latest_test = TestResult.query.order_by(TestResult.id.desc()).first()
+    test_id = latest_user_test.id if latest_user_test else latest_test.id
     return render_template('start_test.html', title='Start Test', test_id=test_id)
 
 
@@ -59,6 +60,8 @@ def load(test_id):
 @test.route("/test/<int:test_id>/result")
 @login_required
 def result(test_id):
+    results = None
+    previous_data = None
     articles = Article.query.limit(5).all()  # TODO: add simple model for recommendations
     resources = Resource.query.limit(5).all()
 
